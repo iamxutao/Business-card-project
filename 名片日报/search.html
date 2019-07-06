@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="an" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache,no-store,must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>名片夹</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/extend/style.css}" href="./css/style.css" />
+    <link type="text/css" rel="stylesheet" th:href="@{/css/extend/repair.css}" href="./css/repair.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <input type="text" placeholder="输入搜索关键词" name="key" />
+            <img th:src="@{/img/extend/search.png}" src="./img/search.png" alt="搜索" onclick="search1()" />
+        </header>
+
+        <div class="tbody">
+            <ul th:each="user : ${userList}" class="regexp">
+                <li th:onclick="|click1(${user['userInfo']['userId']})|" th:value="${user['userInfo']['userId']}">
+                    <img th:src="${user['path']}" src="img/headImg.png" alt="头像" />
+                    <div>
+                        <h4 th:text="${user['userInfo']['name']}">独孤飞云</h4>
+                        <p th:text="'邮箱：'+${user['userInfo']['email']}">邮箱：1104320285@qq.com</p>
+                    </div>
+                    <img th:src="@{/img/extend/right.png}" src="img/right.png" alt="详情">
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" th:src="@{/js/extend/jquery-3.3.1.min.js}" src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    window.addEventListener('pageshow', function() {
+        var refresh = sessionStorage.getItem("need-refresh");
+        if (refresh != null && refresh.toString() == "true") {
+            sessionStorage.setItem("need-refresh", "true1");
+            location.reload();
+        }
+    });
+
+    function search() {
+        var name = $("input[name='key']").val();
+        var reg = new RegExp(name);
+        $(".regexp").each(function() {
+            var content = $(this).find("h4").text();
+            if (reg.test(content)) {
+                $(this).attr("hidden", false);
+            } else {
+                $(this).attr("hidden", true);
+            }
+        });
+    }
+
+    function search1() {
+        $(".tbody").find("ul[refresh='yes']").remove();
+        var obj = {};
+        obj.name = $("input[name='key']").val();
+        var ids = [];
+        $(".regexp").each(function() {
+            ids.push({
+                "id": $(this).find("li").val()
+            });
+        });
+        obj.idList = ids;
+        $.ajax({
+            type: "POST",
+            url: [
+                [$ {#
+                    request.getContextPath()
+                }]
+            ] + '/cardSearch',
+            data: JSON.stringify(obj),
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            success: function(result) {
+                for (var i in result) {
+                    var html = "<ul class='regexp' refresh='yes'>" +
+                        "<li onclick='click1(" + result[i].userInfo.userId + ")' value='" + result[i].userInfo.userId + "'>" +
+                        "<img src='" + result[i].path + "' alt='头像'/>" +
+                        "<div>" +
+                        "<h4>" + result[i].userInfo.name + "</h4>" +
+                        "<p>邮箱：" + result[i].userInfo.email + "</p>" +
+                        "</div>" +
+                        "<img src='/card/img/extend/right.png' alt='详情'>" +
+                        "</li>" +
+                        "</ul>"
+                    $(".tbody").append(html);
+                }
+            },
+            error: function(e) {
+                alert(e);
+            }
+        });
+    }
+
+    function click1(x) {
+        var wechatname = [
+            [$ {
+                wechatname
+            }]
+        ];
+        location.href = [
+            [$ {#
+                request.getContextPath()
+            }]
+        ] + '/back?type=2&unionId=' + [
+            [$ {
+                unionId
+            }]
+        ] + '&userId=' + x + '&wechatname=' + wechatname;
+    }
+</script>
+
+</html>

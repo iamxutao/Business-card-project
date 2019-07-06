@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>详细记录</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/history.css">
+</head>
+
+<body>
+    <main>
+        <div class="header">
+            <img src="./img/headImg.png" alt="头像">
+            <h2>我的日报</h2>
+            <span>昨天 18:37</span>
+        </div>
+        <ul class="content">
+            <li>
+                <span>今日工作</span>
+                <p>完成云平台说明书，<br/>完成写日报</p>
+            </li>
+            <li><span>明日计划</span>
+                <p>编写说明书，完成写日报</p>
+            </li>
+            <li><span>其它事项</span>
+                <p>编写说明书，完成写日报</p>
+            </li>
+        </ul>
+        <div class="msg">
+            <p>已汇报给王婧、陈容进、夏志杰、缪金勇</p>
+        </div>
+    </main>
+    <footer>
+        <span>
+            <img src="./img/headImg.png" alt="头像">
+        </span>
+        <div>
+            <p>
+                缪金勇
+            </p>
+            <p>
+                收到！
+            </p>
+            <p>
+                6/24
+            </p>
+        </div>
+    </footer>
+    <form action="history" method="POST">
+        <div class="input">
+            <textarea autoHeight="true" id="textarea" name="" id="txt_description" cols="22" placeholder="发表评论..." contenteditable="true"></textarea>
+            <!-- <input type="text" id="textarea" placeholder="发表评论..."> -->
+            <input class="sendout" type="submit" value="发送">
+        </div>
+    </form>
+</body>
+<script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript" src="./js/history.js"></script>
+
+</html>

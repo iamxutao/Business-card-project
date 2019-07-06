@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="an" xmlns:th="http://www.thymeleaf.org">
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>编辑名片</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/extend/style.css}" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/extend/index.css}" href="./css/index.css" />
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <img id="img_avatar" th:attr="src=${portrait==null?'/card/img/extend/headImg.jpg':portrait.portraitPath}" src="./img/headImg.png" alt="头像" />
+                <button id="updateAvatar">变更头像</button>
+            </div>
+        </header>
+
+        <div class="formWrap">
+            <form action="">
+                <ul>
+                    <li>
+                        <span>*</span>
+                        <p>姓<span>教育</span>名:</p>
+                        <input id="ipt_name" th:value="${userInfo?.name}" type="text" />
+                    </li>
+                    <li>
+                        <span>*</span>
+                        <p>电<span>教育</span>话:</p>
+                        <input id="ipt_phone" th:value="${userInfo?.phone}" type="text" />
+                    </li>
+                    <li>
+                        <span class="mustfill">*</span>
+                        <p>邮<span>教育</span>箱:</p>
+                        <input id="ipt_email" th:value="${userInfo?.email}" type="text" />
+                    </li>
+                    <li>
+                        <span class="mustfill">*</span>
+                        <p>单<span>教育</span>位:</p>
+                        <input id="ipt_company" th:value="${userInfo?.company}" type="text" />
+                    </li>
+                    <li>
+                        <span>*</span>
+                        <p>地<span>教育</span>址:</p>
+                        <input id="ipt_address" th:value="${userInfo?.address}" type="text" />
+                    </li>
+                    <li>
+                        <span class="mustfill">*</span>
+                        <p>行<span>教育</span>业:</p>
+                        <select id="industry" autocomplete="off">
+                        <option value="美容/美发">美容/美发</option>
+                        <option value="生活/家政服务">生活/家政服务</option>
+                        <option value="运动/健康">运动/健康</option>
+                        <option value="旅游/酒店">旅游/酒店</option>
+                        <option value="行政管理">行政管理</option>
+                        <option value="娱乐/保健">娱乐/保健</option>
+                        <option value="餐饮/食品">餐饮/食品</option>
+                        <option value="销售/市场">销售/市场</option>
+                        <option value="文化/影视/艺术">文化/影视/艺术</option>
+                        <option value="广告/创意">广告/创意</option>
+                        <option value="通信/互联网">通信/互联网</option>
+                        <option value="制造/物流">制造/物流</option>
+                        <option value="服装/纺织">服装/纺织</option>
+                        <option value="法律/法务">法律/法务</option>
+                        <option value="财会/金融/保险">财会/金融/保险</option>
+                        <option value="医疗/护理">医疗/护理</option>
+                        <option value="建筑/装修">建筑/装修</option>
+                        <option value="教育/培训">教育/培训</option>
+                        <option value="商务">商务</option>
+                        <option value="政府/非盈利机构">政府/非盈利机构</option>
+                    </select>
+                    </li>
+                    <li>
+                        <span class="mustfill">*</span>
+                        <p>教育背景:</p>
+                        <input id="ipt_education" th:value="${userInfo?.education}" type="text" />
+                    </li>
+                </ul>
+                <div class="cont">
+                    <div>
+                        <span>*</span>
+                        <p>个人信息（关于你的工作、特长、兴趣···的宣传）：</p>
+                        <textarea oninput="autoTextAreaHeight(this)" name="" id="txt_description" cols="22" rows="4" th:text="${userInfo?.personInfo}"></textarea>
+                    </div>
+                    <div id="divtupian">
+                        <span class="mustfill">*</span>
+                        <p>图片展示（关于你的工作、产品、服务的图片展示）：</p>
+                        <ul class="imgWarp" onclick="" style="height: 50px">
+                            <li class="addImg" id="zengjiatupian">
+                                <img th:src="@{/img/extend/add.png}" src="./img/add.png" alt="添加" />
+                                <p>点击添加图片</p>
+                            </li>
+                        </ul>
+                        <div id="newPic">
+                            <ul class="imgWarp newPic" th:if="${imagesList.size()>0}" th:each="image : ${imagesList}">
+                                <li class="addImg">
+                                    <img class="close" th:src="@{/img/extend/close.png}" src="./img/close.svg" alt="关闭" />
+                                    <img class="imageList" th:src="${image.imagesPath}" alt="展示" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <span onclick="ok_func()">保存</span>
+                    <span onclick="cancel_func()" th:if="${userInfo!=null}">取消</span>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+
+
+</body>
+<script type="text/javascript" th:src="@{/js/extend/jquery-3.3.1.min.js}" src="jquery-3.3.1.min.js"></script>
+<script th:src="@{http://res.wx.qq.com/open/js/jweixin-1.4.0.js}" src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    var userId = [
+        [$ {
+            userInfo ? .userId
+        }]
+    ];
+    var unionId = [
+        [$ {
+            unionId
+        }]
+    ];
+    var wechatname = [
+        [$ {
+            wechatname
+        }]
+    ];
+    var type = [
+        [$ {
+            type
+        }]
+    ];
+    type = ((type != null) ? type : '1');
+
+    window.addEventListener('pageshow', function() {
+        var picName = sessionStorage.getItem("picName");
+        if (picName != null) {
+            sessionStorage.removeItem("picName");
+            var picUrl = [
+                [$ {#
+                    request.getContextPath()
+                }]
+            ] + '/picture/' + picName;
+            $("#img_avatar").attr("src", picUrl);
+        }
+    });
+
+    $(function() {
+        var user_industry = [
+            [$ {
+                userInfo ? .industry
+            }]
+        ];
+        var industry = (user_industry == null ? '' : user_industry);
+        $("#industry").find("option[value='" + industry + "']").prop("selected", true);
+
+        //去除ios中alert带url
+        window.alert = function(name) {
+            var iframe = document.createElement("IFRAME");
+            iframe.style.display = "none";
+            iframe.setAttribute("src", 'data:text/plain,');
+            document.documentElement.appendChild(iframe);
+            window.frames[0].window.alert(name);
+            iframe.parentNode.removeChild(iframe);
+        }
+
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: [
+                [$ {
+                    js_sdk.appId
+                }]
+            ], // 必填，公众号的唯一标识
+            timestamp: [
+                [$ {
+                    js_sdk.timestamp
+                }]
+            ], // 必填，生成签名的时间戳
+            nonceStr: [
+                [$ {
+                    js_sdk.nonceStr
+                }]
+            ], // 必填，生成签名的随机串
+            signature: [
+                [$ {
+                    js_sdk.signature
+                }]
+            ], // 必填，签名，见附录1
+            jsApiList: [
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage'
+                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        wx.ready(function() {
+            // 上传图片
+            $("#zengjiatupian").click(function() {
+                    var len = $("#divtupian").find('.newPic').length;
+                    if (len == 5) {
+                        alert("最多可上传5张照片!");
+                        return false;
+                    }
+                    wx.chooseImage({
+                        count: 5,
+                        success: function(res) {
+                            var orglen = $("#divtupian").find('.newPic').length;
+                            var len = res.localIds.length;
+                            var total = orglen + len;
+                            if (total > 5) {
+                                alert("最多可上传5张照片!");
+                                return false;
+                            }
+                            var localIds = res.localIds;
+                            syncUpload(localIds, 'businesscardimage');
+                        }
+                    });
+                })
+                //updateAvatar
+            $("#updateAvatar").click(function() {
+                wx.chooseImage({
+                    count: 1,
+                    sizeType: 'compressed',
+                    success: function(res) {
+                        var localIds = res.localIds;
+                        headSyncUpload(localIds, 'avatarimage');
+                    }
+                });
+            })
+
+            var headSyncUpload = function(localIds, type) {
+                var localIdVal = localIds[0];
+                wx.uploadImage({
+                    localId: localIdVal, //本地图片ID
+                    isShowProgressTips: 1, //显示加载圈
+                    success: function(serverRes) {
+                        var serverIdVal = serverRes.serverId;
+                        location.href = [
+                            [$ {#
+                                request.getContextPath()
+                            }]
+                        ] + "/photoCrop?localId=" + localIdVal + "&serverId=" + serverIdVal + "&wechatname=" + wechatname;
+                    },
+                });
+            }
+
+            var syncUpload = function(localIds, type) {
+                var localId = localIds.pop();
+                wx.uploadImage({
+                    localId: localId,
+                    isShowProgressTips: 1,
+                    success: function(res) {
+                        var serverId = res.serverId; // 返回图片的服务器端ID
+                        var jsonObj = {};
+                        jsonObj.type = type;
+                        jsonObj.serverId = serverId;
+                        jsonObj.wechatname = wechatname;
+                        $.ajax({
+                            type: "POST",
+                            url: [
+                                [$ {#
+                                    request.getContextPath()
+                                }]
+                            ] + '/downloadImage',
+                            data: JSON.stringify(jsonObj),
+                            dataType: "json",
+                            contentType: "application/json;charset=UTF-8",
+                            async: false,
+                            success: function(resultObj) {
+                                var picUrl = [
+                                    [$ {#
+                                        request.getContextPath()
+                                    }]
+                                ] + '/picture/' + resultObj.name;
+                                if (type == 'avatarimage') {
+                                    if (resultObj != '' && resultObj != null) {
+                                        $("#img_avatar").attr("src", picUrl);
+                                    }
+                                } else {
+                                    if (resultObj != '' && resultObj != null) {
+                                        //图片增加
+                                        $("#newPic").append('<ul class="imgWarp newPic"><li class="addImg"><img class="close" src="img/close.png" alt="关闭"><img class="imageList" src="' + picUrl + '" alt="展示"/></li></ul>');
+                                        //为新元素节点添加事件侦听器
+                                        bindListener();
+                                    }
+                                }
+                            },
+                            error: function(e) {
+                                //alert(e);
+                            }
+                        });
+                        //其他对serverId做处理的代码
+                        if (localIds.length > 0) {
+                            syncUpload(localIds, type);
+                        }
+                    }
+                });
+            };
+        });
+        wx.error(function(res) {
+            alert(res.errMsg);
+        });
+        bindListener();
+    })
+
+    window.onload = function(ev) {
+        var o = document.getElementById("txt_description");
+        autoTextAreaHeight(o);
+    }
+
+
+    function autoTextAreaHeight(o) {
+        o.style.height = o.scrollTop + o.scrollHeight + "px";
+    }
+
+    function bindListener() {
+        $(".close").unbind().click(function() {
+            $(this).parent().parent().remove();
+        })
+    }
+
+    function ok_func() {
+        //必填项验证
+        if ($.trim($("#ipt_name").val()) == "") {
+            alert("姓名为必填项!")
+            $("#ipt_name").focus();
+            return false;
+        }
+        if ($.trim($("#ipt_phone").val()) == "") {
+            alert("电话号码为必填项!");
+            $("#ipt_phone").focus();
+            return false;
+        }
+        if ($.trim($("#txt_description").val()) == "") {
+            alert("个人信息为必填项!");
+            $("#txt_description").focus();
+            return false;
+        }
+        if ($.trim($("#ipt_address").val()) == "") {
+            alert("地址为必填项!");
+            $("#ipt_address").focus();
+            return false;
+        }
+        var jsonObj = {};
+        jsonObj.phone = $("#ipt_phone").val();
+        jsonObj.name = $("#ipt_name").val();
+        jsonObj.email = $("#ipt_email").val();
+        jsonObj.company = $("#ipt_company").val();
+        jsonObj.industry = $("#industry").val();
+        jsonObj.education = $("#ipt_education").val();
+        jsonObj.personInfo = $("#txt_description").val();
+        jsonObj.address = $("#ipt_address").val();
+        jsonObj.unionId = [
+            [$ {
+                unionId
+            }]
+        ];
+        var images = [];
+        $("#newPic").find(".imageList").each(function() {
+            images.push({
+                "images": $(this).attr("src")
+            });
+        })
+        var obj = {};
+        obj.userInfo = jsonObj;
+        obj.headImg = $("#img_avatar").attr("src");
+        obj.images = images;
+        $.ajax({
+            type: "POST",
+            url: [
+                [$ {#
+                    request.getContextPath()
+                }]
+            ] + '/add',
+            data: JSON.stringify(obj),
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            success: function(resultObj) {
+                if (resultObj.status == "fail") {
+                    alert(resultObj.message);
+                } else if (resultObj.status == "success") {
+                    if (type == '3') {
+                        sessionStorage.setItem("need-refresh", "true");
+                        window.history.back();
+                    } else {
+                        location.href = [
+                            [$ {#
+                                request.getContextPath()
+                            }]
+                        ] + '/back?type=1&unionId=' + unionId + '&userId=' + resultObj.userId + '&wechatname=' + wechatname;
+                    }
+                }
+            },
+            error: function(e) {
+                alert(e);
+            }
+        });
+    }
+
+    function cancel_func() {
+        if (type == '3') {
+            window.history.back();
+        } else {
+            location.href = [
+                [$ {#
+                    request.getContextPath()
+                }]
+            ] + '/back?type=1&unionId=' + unionId + '&userId=' + (userId == null ? 0 : userId) + '&wechatname=' + wechatname;
+        }
+    }
+</script>
+
+</html>

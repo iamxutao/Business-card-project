@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>日报</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/daily.css">
+</head>
+
+<body>
+    <div class="all">
+        <main>
+            <form action="daily" method="POST">
+                <ul class="wrap">
+                    <li>
+                        <div>
+                            <h2>今日工作
+                                <p>*</p>
+                            </h2>
+                        </div>
+
+                        <textarea name="workToday" cols="30" rows="10" placeholder="请输入"></textarea>
+                    </li>
+                    <li>
+                        <div>
+                            <h2>明日计划</h2>
+                        </div>
+                        <textarea name="tomorrowPlan" cols="30" rows="10" placeholder="请输入"></textarea>
+                    </li>
+                    <li>
+                        <div>
+                            <h2>其他事项</h2>
+                        </div>
+
+                        <textarea name="otherMatters" cols="30" rows="10" placeholder="请输入"></textarea>
+                    </li>
+                    <li>
+                        <span>汇报给</span>
+                        <span>王婧等四人</span>
+                        <img src="./img/rightMore.svg" alt="更多">
+                    </li>
+                </ul>
+                <input class="submit" type="submit" value="提交">
+            </form>
+        </main>
+    </div>
+</body>
+
+<script src=""></script>
+<script>
+</script>
+
+
+</html>
